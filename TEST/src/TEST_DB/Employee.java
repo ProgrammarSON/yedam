@@ -22,7 +22,7 @@ public class Employee
     		
     		while(true)
     		{    
-    			System.out.print("1(전체조회) 2(간단조회) 3(삽입) 4(수정) 5(전체조회)");
+    			System.out.print("1(전체조회) 2(간단조회) 3(삽입) 4(수정) 5(전체조회) 6(리스트 커서) 7(종료)");
     			int menu=sc.nextInt();
     			
     			switch(menu) 
@@ -43,6 +43,9 @@ public class Employee
     					mgmt.empListmap();
     					break;
     				case 6:
+    					mgmt.empListCursor();
+    					break;
+    				case 7:
     					System.out.println("시스템을 종료합니다.");
     					System.exit(0);
     			}

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +96,23 @@ public class EmployeeDAO {
 		}
 	}
 	
+	public void insertEmpProc(EmployeeDTO dto) {
+		connect();
+		
+		try {
+			CallableStatement cstmt = conn.prepareCall("{call insert_emp_proc(?,?,?,?)}");
+			cstmt.setString(1,dto.getFirstName());
+			cstmt.setString(2, dto.getLastName());
+			cstmt.setString(3, dto.getEmail());
+			cstmt.setString(4, dto.getJobId());
+			int cnt = cstmt.executeUpdate();
+			System.out.println(cnt + "건 입력되었습니다.(proc");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void updateEmp(EmployeeDTO dto) {
 		connect();
 		String sql = "UPDATE employees SET email = ? WHERE employee_id = ?";
@@ -107,6 +125,24 @@ public class EmployeeDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			close();
+		}
+	}
+	
+	public void updateEmpProc(EmployeeDTO dto) {
+		connect();
+		try {
+			CallableStatement cstmt = conn.prepareCall("{call update_emp_proc(?,?)}");
+			cstmt.setString(1,dto.getEmail());
+			cstmt.setString(2,dto.getEmployeeId());
+			int cnt = cstmt.executeUpdate();
+			System.out.println(cnt + "건이 업데이트 되었습니다.(proc)");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close();
 		}
 	}
 	public List<EmployeeDTO> getEmpList(SearchVO vo) {
@@ -177,24 +213,39 @@ public class EmployeeDAO {
 		return list;
 	}
 	
-	/*
-	public void getEmpListCursor() {
+	
+	public List<EmployeeDTO> getEmpListCursor() {
 		connect();
+		List<EmployeeDTO> list = new ArrayList<>();
+		EmployeeDTO dto = null;
 		try {
 			CallableStatement cstmt = conn.prepareCall("{call get_emplist_proc(?,?,?)}");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date d = new Date();
+		
 			
 			cstmt.setInt(1,500);
-			cstmt.setDate(2,d);
+			cstmt.setDate(2,new Date(100,0,1));
+					
+			cstmt.registerOutParameter(3,oracle.jdbc.OracleTypes.CURSOR);
+			cstmt.executeQuery();
+			ResultSet rs = (ResultSet) cstmt.getObject(3);
 			
-			cstmt.registerOutParameter(3,oracle.jdbc.Ora);
+			while(rs.next()) {
+				dto = new EmployeeDTO();
+				dto.setEmployeeId(rs.getString("employee_id"));
+				dto.setFirstName(rs.getString("first_name"));
+				dto.setLastName(rs.getString("last_name"));
+				dto.setEmail(rs.getString("email"));
+				dto.setHireDate(rs.getString("hire_date"));
+				dto.setJobId(rs.getString("job_id"));
+				list.add(dto);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close();
 		}
+		return list;
 		
-	}*/
+	}
 }

@@ -13,8 +13,8 @@ public class EmployeeMgmt {
 		SearchVO vo = new SearchVO();
 		EmployeeDAO dao = new EmployeeDAO();
 		
-		vo.setSearchCondition("hire_date");
-		vo.setSearchKeyword("19800101");
+		vo.setSearchCondition(" ");
+		vo.setSearchKeyword(" ");
 		List<EmployeeDTO> list = dao.getEmpList(vo);
 		
 		System.out.println("===============================================================================================");
@@ -32,8 +32,8 @@ public class EmployeeMgmt {
 	}
 	
 	public void insertEmpProc() {
-		System.out.println("사원번호를 입력화세요.");
-		String empNo = sc.nextLine();
+	//	System.out.println("사원번호를 입력화세요.");
+	//	String empNo = sc.nextLine();
 		System.out.println("이름을 입력하세요.");
 		String firstName = sc.nextLine();
 		System.out.println("성을 입력하세요.");
@@ -44,14 +44,17 @@ public class EmployeeMgmt {
 		String job = sc.nextLine();
 		
 		EmployeeDTO dto =  new EmployeeDTO();
-		dto.setEmployeeId(empNo);
+		//dto.setEmployeeId(empNo);
 		dto.setFirstName(firstName);
 		dto.setLastName(lastName);
 		dto.setEmail(email);
 		dto.setJobId(job);
 		
-		dao.insertEmp(dto);
+		//dao.insertEmp(dto);
+		dao.insertEmpProc(dto);
 	}
+	
+	
 	
 	public void updateEmpProc() {
 		EmployeeDTO dto = new EmployeeDTO();
@@ -61,7 +64,8 @@ public class EmployeeMgmt {
 		String empNo = sc.nextLine();
 		dto.setEmail(email);
 		dto.setEmployeeId(empNo);
-		dao.updateEmp(dto);
+		//dao.updateEmp(dto);
+		dao.updateEmpProc(dto);
 	}
 	
 	public void empListmap() {
@@ -70,5 +74,11 @@ public class EmployeeMgmt {
 				
 		for(Map<String, Object> map : list2)
 			System.out.println(map);
+	}
+	
+	public void empListCursor() {
+		List<EmployeeDTO> list = dao.getEmpListCursor();
+		for(EmployeeDTO d : list)
+			System.out.println(d);
 	}
 }
