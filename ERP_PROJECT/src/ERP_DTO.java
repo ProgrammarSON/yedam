@@ -6,8 +6,15 @@ public class ERP_DTO {
 	private String product_name;
 	private String sar_date;
 	private String total;
+	private String warehouse;
 	
 	
+	public String getWarehouse() {
+		return warehouse;
+	}
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
 	public String getIndex() {
 		return index;
 	}

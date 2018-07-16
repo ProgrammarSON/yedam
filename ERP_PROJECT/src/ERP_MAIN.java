@@ -2,9 +2,10 @@ import java.util.*;
 
 public class ERP_MAIN {
 
+	
 	public static void main(String[] args) {
 		
-		new ERP_GUI();
+		new ERP_System();
 		
 		
 		

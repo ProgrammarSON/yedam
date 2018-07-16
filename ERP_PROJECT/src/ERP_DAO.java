@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.*;
 
+
 public class ERP_DAO {
 		private Connection conn = null;
 		
@@ -51,7 +52,7 @@ public class ERP_DAO {
 					dto = new ERP_DTO();
 					dto.setIndex(rs.getString("sar_id"));
 					dto.setProduct_id(rs.getString("product_id"));
-					dto.setSar_date("sar_date");
+					dto.setSar_date(rs.getString("sar_date"));
 					list.add(dto);			
 				}
 				
@@ -62,9 +63,51 @@ public class ERP_DAO {
 				close();
 			}
 			return list;
-			
-			
 		}
+		
+		public void insertErp(ERP_DTO dto) {
+			connect();
+			String sql = "INSERT INTO PRODUCT VALUES(?, ?, ?, ?)";
+					
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,dto.getProduct_id());
+				pstmt.setString(2,dto.getProduct_name());
+				pstmt.setString(3,dto.getTotal());
+				pstmt.setString(4,dto.getWarehouse());
+				int cnt = pstmt.executeUpdate();
+				System.out.println(cnt + "건이 입력되었습니다.");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+		}
+		
+		public void insertSandR(ERP_DTO dto) {
+			connect();
+			String sql = "INSERT INTO STORE_AND_RELEASE VALUES(?, ?, ?, sysdate)";
+					
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,dto.getIndex());
+				pstmt.setString(2,dto.getProduct_id());
+				pstmt.setString(3,dto.getAmount());
+				
+				int cnt = pstmt.executeUpdate();
+				System.out.println(cnt + "건이 입력되었습니다.");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+		}
+		
+		
 		
 		
 }
