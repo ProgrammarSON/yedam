@@ -13,7 +13,7 @@ public class Insert_Product extends Insert_Product_GUI implements ActionListener
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		dto.setProduct_id(pkey_txt.getText());
+		dto.setProduct_id(Integer.parseInt(pkey_txt.getText()));
 		dto.setProduct_name(pname_txt.getText());
 		dto.setTotal(stock_txt.getText());
 		dto.setWarehouse(warehouse_txt.getText());

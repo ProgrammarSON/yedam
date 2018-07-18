@@ -18,15 +18,23 @@ public class SandR extends SandR_GUI implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		dto.setIndex(sandr_txt.getText());
-		dto.setProduct_id(pkey_txt.getText());
+		//dto.setIndex(sandr_txt.getText());
+		dto.setProduct_id(Integer.parseInt(pkey_txt.getText()));
+				
 		
-		if(e.getActionCommand().equals("stored"))		
-			dto.setAmount(amount_txt.getText());
+		if(e.getActionCommand().equals("stored"))
+		{
+			dto.setAmount(Integer.parseInt(amount_txt.getText()));
+			setVisible(false);
+		}
 		if(e.getActionCommand().equals("released"))
-			dto.setAmount("-" + amount_txt.getText());
+		{
+			dto.setAmount(Integer.parseInt(amount_txt.getText()) * (-1));
+			setVisible(false);
+		}
 		
-		dao.insertSandR(dto);
+		dao.insertSandRProc(dto);
+		
 	}
 
 }

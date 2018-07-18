@@ -67,6 +67,7 @@ public class ERP_System extends JFrame implements ActionListener {
 		stock = new JButton("Check_stock");
 		stock.setBounds(1242, 578, 180, 50);
 		contentPane.add(stock);
+		stock.addActionListener(new STOCK_Check());
 				
 		setVisible(true);
 	}
@@ -76,10 +77,10 @@ public class ERP_System extends JFrame implements ActionListener {
 		DefaultTableModel model;
 		String data[][];
 		List<ERP_DTO> list;
-		String column[] = {"index","product_id","DATE" };
+		String column[] = {"index","product_id","stock","DATE" };
 		
 		ERP_Check(){
-			data = new String[1000][3];
+			data = new String[1000][4];
 		}
 			
 
@@ -91,8 +92,9 @@ public class ERP_System extends JFrame implements ActionListener {
 			for(ERP_DTO d : list)
 			{
 				data[i][0] = d.getIndex();
-				data[i][1] = d.getProduct_id();
-				data[i][2] = d.getSar_date();
+				data[i][1] = Integer.toString(d.getProduct_id());
+				data[i][2] = Integer.toString(d.getAmount());
+				data[i][3] = d.getSar_date();
 				i++;
 			}
 			
@@ -105,6 +107,41 @@ public class ERP_System extends JFrame implements ActionListener {
 				contentPane.add(scroll);
 		}
 	}
+	
+	private class STOCK_Check implements ActionListener{
+		DefaultTableModel model;
+		String data[][];
+		List<ERP_DTO> list;
+		String column[] = {"product_id","product_name","stock","warehouse" };
+		
+		STOCK_Check(){
+			data = new String[1000][4];
+		}
+			
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			list = dao.getStock();
+						
+			int i =0;
+			for(ERP_DTO d : list)
+			{
+				data[i][0] = Integer.toString(d.getProduct_id());
+				data[i][1] = d.getProduct_name();
+				data[i][2] = d.getTotal();
+				data[i][3] = d.getWarehouse();
+				i++;
+			}
+			
+			model = new DefaultTableModel(data,column);
+			//model.setColumnIdentifiers(data);
+			table.setModel(model);
+		
+			
+			if(e.getActionCommand().equals("Check_stock"))
+				contentPane.add(scroll);
+		}
+	}
 
 
 	@Override
@@ -114,9 +151,9 @@ public class ERP_System extends JFrame implements ActionListener {
 		
 		if(e.getActionCommand().equals("S&R"))
 			sr.setVisible(true);
-		
-		
 	}
+	
+	
 	
 	
 }
