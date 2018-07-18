@@ -159,6 +159,7 @@ public class ERP_DAO {
 					System.out.println("시스템 에러");
 					return;
 				}
+				
 				System.out.println(cnt + "건 입력되었습니다.(proc");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
