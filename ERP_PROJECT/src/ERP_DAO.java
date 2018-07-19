@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 
 
 public class ERP_DAO {
@@ -41,7 +43,7 @@ public class ERP_DAO {
 			ERP_DTO dto = null;
 			List<ERP_DTO> list = new ArrayList<>();
 			String sql = "SELECT sar_id, product_id, amount, TO_CHAR(sar_date, 'yyyy-mm-dd hh24:mm:ss') AS sar_date"
-					+ " FROM STORE_AND_RELEASE";
+					+ " FROM STORE_AND_RELEASE " + "ORDER BY sar_id";
 			
 			PreparedStatement pstmt;
 			try {
@@ -72,7 +74,7 @@ public class ERP_DAO {
 			ERP_DTO dto = null;
 			List<ERP_DTO> list = new ArrayList<>();
 			String sql = "SELECT product_id, product_name, stock,warehouse"
-					+ " FROM PRODUCT";
+					+ " FROM PRODUCT " + "ORDER BY 1";
 			
 			PreparedStatement pstmt;
 			try {
@@ -86,6 +88,37 @@ public class ERP_DAO {
 					dto.setProduct_name((rs.getString("product_name")));
 					dto.setTotal((rs.getString("stock")));
 					dto.setWarehouse((rs.getString("warehouse")));
+					list.add(dto);			
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+			
+			return list;
+		}
+		
+		public List<ERP_DTO> getDepot() {
+			connect();
+			ERP_DTO dto = null;
+			List<ERP_DTO> list = new ArrayList<>();
+			String sql = "SELECT depot_name, depot_type, stock"
+					+ " FROM DEPOT ORDER BY depot_name";
+			
+			PreparedStatement pstmt;
+			try {
+				pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();
+				
+				while(rs.next()) 
+				{
+					dto = new ERP_DTO();
+					dto.setWarehouse(rs.getString("depot_name"));
+					dto.setDepot_type(rs.getString("depot_type"));
+					dto.setTotal(rs.getString("stock"));
 					list.add(dto);			
 				}
 				
@@ -156,11 +189,11 @@ public class ERP_DAO {
 				
 				if(check < 0)
 				{
-					System.out.println("시스템 에러");
+					JOptionPane.showMessageDialog(null, "재고가 모자랍니다.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
-				System.out.println(cnt + "건 입력되었습니다.(proc");
+				//System.out.println(cnt + "건 입력되었습니다.(proc");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

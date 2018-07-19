@@ -13,63 +13,21 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
 
-public class ERP_System extends JFrame implements ActionListener {
+public class ERP_System  extends ERP_System_GUI implements ActionListener {
 
-	protected JPanel contentPane;
-	protected JTable table;
-	protected JButton product_add;
-	protected JButton stored;
-	protected JButton released;
-	protected JButton sandr;
-	protected JButton stock;
-	protected JScrollPane scroll;
-	protected DefaultTableModel model;
 	protected ERP_DAO dao;
 	
-	protected SandR sr;
-	protected Insert_Product ip;
-	
 	public ERP_System() {
-		
-			
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(450, 200, 1450, 700);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
 		
 		dao = new ERP_DAO();
 		ip = new Insert_Product(dao);
 		sr = new SandR(dao);
 		
-		
-		table = new JTable(model);
-		scroll = new JScrollPane(table);
-		scroll.setBounds(22, 21, 1400, 520);
-		
-		
-		product_add = new JButton("Product_add");
-		product_add.setBounds(22, 578, 180, 50);
-		contentPane.add(product_add);
 		product_add.addActionListener(this);
-		
-		stored = new JButton("S&R");
-		stored.setBounds(494, 578, 180, 50);
-		contentPane.add(stored);
 		stored.addActionListener(this);
-		
-		sandr = new JButton("Check_S&R");
-		sandr.setBounds(896, 578, 180, 50);
-		contentPane.add(sandr);
 		sandr.addActionListener(new ERP_Check());
-				
-		stock = new JButton("Check_stock");
-		stock.setBounds(1242, 578, 180, 50);
-		contentPane.add(stock);
 		stock.addActionListener(new STOCK_Check());
-				
-		setVisible(true);
+		depot_btn.addActionListener(new DEPOT_Check());
 	}
 	
 	
@@ -142,6 +100,41 @@ public class ERP_System extends JFrame implements ActionListener {
 				contentPane.add(scroll);
 		}
 	}
+	
+	
+	private class DEPOT_Check implements ActionListener{
+		DefaultTableModel model;
+		String data[][];
+		List<ERP_DTO> list;
+		String column[] = {"DEPOT_NAME","DEPOT_TYPE","STOCK"};
+		
+		DEPOT_Check(){
+			data = new String[4][3];
+		}
+			
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			list = dao.getDepot();
+						
+			int i =0;
+			for(ERP_DTO d : list)
+			{
+				data[i][0] = d.getWarehouse();
+				data[i][1] = d.getDepot_type();
+				data[i][2] = d.getTotal();
+				i++;
+			}
+			
+			model = new DefaultTableModel(data,column);
+			//model.setColumnIdentifiers(data);
+			table.setModel(model);
+		
+			
+			if(e.getActionCommand().equals("Check_Depot"));
+				contentPane.add(scroll);
+		}
+	}
 
 
 	@Override
@@ -152,6 +145,7 @@ public class ERP_System extends JFrame implements ActionListener {
 		if(e.getActionCommand().equals("S&R"))
 			sr.setVisible(true);
 	}
+	
 	
 	
 	

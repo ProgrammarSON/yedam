@@ -23,7 +23,7 @@ public class SandR_GUI extends JFrame {
 	
 	public SandR_GUI() {
 		
-		setBounds(100, 100, 595, 133);
+		setBounds(600, 400, 595, 133);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);

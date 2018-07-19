@@ -26,7 +26,7 @@ public class Insert_Product_GUI extends JFrame {
 	
 	public Insert_Product_GUI() {
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 696, 133);
+		setBounds(600, 400, 696, 133);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);

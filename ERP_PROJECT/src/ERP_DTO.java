@@ -4,6 +4,19 @@ public class ERP_DTO {
 	//private String product_id;
 	//private String amount;			//입고 ? or 출고 ?
 	private int product_id;
+	private int amount;
+	private String product_name;
+	private String sar_date;
+	private String total;
+	private String warehouse;
+	public String getDepot_type() {
+		return depot_type;
+	}
+	public void setDepot_type(String depot_type) {
+		this.depot_type = depot_type;
+	}
+	private String depot_type;
+	
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -16,11 +29,7 @@ public class ERP_DTO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	private int amount;
-	private String product_name;
-	private String sar_date;
-	private String total;
-	private String warehouse;
+	
 	
 	
 	public String getWarehouse() {
