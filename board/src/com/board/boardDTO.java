@@ -8,7 +8,21 @@ public class boardDTO {
 	private String writer;
 	private Timestamp bdate;
 	private String hits;
+	private String content;
+	private int pagecnt;
 	
+	public int getPagecnt() {
+		return pagecnt;
+	}
+	public void setPagecnt(int pagecnt) {
+		this.pagecnt = pagecnt;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public String getBnum() {
 		return bnum;
 	}

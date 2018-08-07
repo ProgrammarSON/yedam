@@ -32,7 +32,7 @@ public class boardDAO {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String query = "INSERT INTO board VALUES (bnum_seq.nextval,?,?,?,0)";
+		String query = "INSERT INTO board VALUES (bnum_seq.nextval,?,?,?,0,?)";
 		
 		try {
 			conn = getConnection();
@@ -41,6 +41,7 @@ public class boardDAO {
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getWriter());
 			pstmt.setTimestamp(3, dto.getBdate());
+			pstmt.setString(4, dto.getContent());
 			pstmt.executeUpdate();
 			ri = boardDAO.MEMBER_JOIN_SUCCESS;
 		} catch (Exception e) {
@@ -80,6 +81,17 @@ public class boardDAO {
 				dto.setHits(rs.getString("hits"));
 				list.add(dto);
 			}
+			sql = "SELECT count(*) AS pagecnt FROM board";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				dto = new boardDTO();
+				dto.setPagecnt(rs.getInt("pagecnt"));
+				list.add(dto);
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
