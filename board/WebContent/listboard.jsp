@@ -3,10 +3,15 @@
 <%@ page import="com.board.*" %>
 <%@ page import="java.util.*" %>
 <% response.setCharacterEncoding("UTF-8"); %>
-<%! 
+<% 
 	boardDAO dao = boardDAO.getInstance(); 
 	List<boardDTO> list = dao.getBoard();
 	int pagesize,i;
+	String name = request.getParameter("name");
+	System.out.print(name);
+%>
+<%
+
 %>
    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,7 +44,7 @@ crossorigin="anonymous">
 				if(pagesize%10 != 0)
 					for(i=0;i<pagesize/10+1;i++){
 			%>
-					<button type="button" class="btn btn-primary"><%=i+1%></button>	
+					<button type="button" class="btn btn-primary" onclick="location='listboard.jsp?name=<%=i+1%>'"><%=i+1%></button>	
 			<%}%>		
 				
 		
