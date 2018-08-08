@@ -9,6 +9,14 @@ public class boardDTO {
 	private Timestamp bdate;
 	private String hits;
 	private String content;
+	private String rownum;
+	
+	public String getRownum() {
+		return rownum;
+	}
+	public void setRownum(String rownum) {
+		this.rownum = rownum;
+	}
 	private int pagecnt;
 	
 	public int getPagecnt() {
